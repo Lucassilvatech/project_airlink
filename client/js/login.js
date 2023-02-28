@@ -22,7 +22,7 @@ request.send()
 })
 
 // Faz uma validação na resposta da api
-export function loadResponse(response){
+function loadResponse(response){
   if (response.error == 'email_not_exist'){
     window.alert('O usuario não existe!')
 
@@ -30,7 +30,7 @@ export function loadResponse(response){
     window.alert('Senha inválida!') 
 
   }else{
-    let token = Math.random().toString(16).slice(-13) + Math.random().toString(16).slice(-13)
+    let token = response.key_login
     localStorage.setItem('token', token)
     window.location.href = '../pages/main.html'
     

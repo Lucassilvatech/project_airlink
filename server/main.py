@@ -4,6 +4,7 @@ from typing import Union, Optional
 
 from manager_db import Manager_DB
 from modelo import ModelUser
+from gera_keys import rendom_key
 
 query = Manager_DB()
 
@@ -36,7 +37,7 @@ async def read_airfare(id_airfare: int, destination: Optional[Union[str, None]] 
 
 
 @app.get('/client/singin')
-async def read_client(email:str, password:str = None):
+async def read_client(email:str, password:str | None = None):
     """busca cliente na base de dados"""
     result = query.select('users', 'email', email)
     if not result: 
@@ -44,7 +45,9 @@ async def read_client(email:str, password:str = None):
 
     if not result[0]['key_pw'] == password:
         return {'error':'password_error'}
-    
+    key_lp = rendom_key()
+    query.atualiza('permission_login','key_login', key_lp, result[0]['id'])
+    result = result['key_login'] = key_lp
     return result
 
 @app.get('/client', response_model=list[ModelUser])
@@ -62,6 +65,8 @@ async def insert_client(user: ModelUser):
     values = tuple(user.dict().values())
     try:
         query.insert('users', keys, values)
+        result = query.select('users','email', user.dict()['email'])
+        query.insert('permission_login', '(id_user, key_login)', (result[0]['id'], ''))
     except Exception:
         raise HTTPException(status_code=405, detail='DuplicateError')
     return user
