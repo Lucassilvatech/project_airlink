@@ -7,26 +7,39 @@ let forgotPw = document.querySelector('.forgotPw')
 let conteiner = document.querySelector('.boxRecuperacaoPw')
 let mainLogin = document.querySelector('.main_login')
 
-// Faz uma solicitação de GET na api
-buttonConf.addEventListener('click', () =>{
-  let request = new XMLHttpRequest();
-  request.onload = function(){
-    let my_obj = this.responseText;
-    let response = JSON.parse(my_obj);
-      loadResponse(response)
-        
-  }
-request.open("GET",`http://127.0.0.1:8000/client/singin?email=${inputEmail.value}&password=${inputPassword.value}`);
-request.send()
 
-})
+buttonConf.addEventListener('click', requestAPI)
+
+// Faz uma solicitação de GET na api
+function requestAPI(){
+
+  if (inputEmail.value == '' || inputPassword.value == ''){
+      alert('O campo email e senha são obrigatorios')
+      return
+    }
+    
+    fetch('http://127.0.0.1:8000/client/singin', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          'email':inputEmail.value,
+          'key_pw':inputPassword.value
+      })
+      })
+      .then(response => response.json())
+      .then(data => loadResponse(data))
+      .catch(error => console.log(error))
+
+  }
 
 // Faz uma validação na resposta da api
 function loadResponse(response){
-  if (response.error == 'email_not_exist'){
+  if (response.detail == 'email_not_exist'){
     window.alert('O usuario não existe!')
 
-  }else if (response.error == 'password_error'){
+  }else if (response.detail == 'password_error'){
     window.alert('Senha inválida!') 
 
   }else{
