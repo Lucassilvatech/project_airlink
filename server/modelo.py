@@ -7,4 +7,8 @@ class ModelUser(BaseModel):
     email: str
     key_pw: str
     detail: str 
+
+class DataLogin(BaseModel):
+    email: str 
+    key_pw: str
     
