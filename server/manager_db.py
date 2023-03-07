@@ -43,12 +43,12 @@ class Manager_DB:
                 conexao.commit()
 
 
-    def atualiza(self,table, column, new_value, id):
+    def atualiza(self,table, column, new_value, reference_value, value):
         """Atualiza um valor na (column) especificada com (new_value)
             onde tiver o (id) que for passado."""
         with Conexao(**log) as conexao:
             with conexao.cursor() as cursor:
-                cursor.execute(f'UPDATE {table} SET {column} = "{new_value}" WHERE (id = {id});')
+                cursor.execute(f'UPDATE {table} SET {column} = "{new_value}" WHERE ({reference_value} = {value});')
                 conexao.commit()
 
 

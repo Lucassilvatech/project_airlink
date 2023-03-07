@@ -31,8 +31,12 @@ def hex_crypt(password):
 
 
 def chack_password(input_password, hashed_password):
-    """verifica se uma string e coresponde a um valor hexadecimal"""
+    """verifica se `input_password`  coresponde a o valor hexadecimal `hashed_password`"""
+    
+    # Tranforma a senha bruta em hexadecimal
     input_password = hex_crypt(input_password)
+
+    # Verifica se a senha convertida é igual a que foi passada
     if input_password == hashed_password:
         return True
     else:
