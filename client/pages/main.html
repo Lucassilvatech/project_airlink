@@ -4,19 +4,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/main.css">
+    <script src="../js/author_login.js"></script>
+
     <title>Airlink</title>
 </head>
 <body>
     <header>
-       <h1>LOGO</h1> 
+       <h1></h1> 
        <nav>
         <a href="#"></a>
         <a href="#"></a>
         <a href="#"></a>
        </nav>
     </header>
+    <section class="carrinho noneDisplay"><i id="i">x</i></section>
     <main>
+        <span class="button_car">Carrinho</span>
+        
         <button id="sair" onclick="sair()">Sair</button>
+        
+        <label>
+            <input type="radio" name="trip-type" value="one-way" checked> Ida
+        </label>
+        <label>
+            <input type="radio" name="trip-type" value="round-trip"> Ida e volta
+        </label>
+
+        <label>Cidade de origem:</label>
+        <input type="text" name="origin" class="origem" required>
+
+        <label>Cidade de destino:</label>
+        <input type="text" name="destination" class="destino" required>
+
+        <label>Data da viagem:</label>
+        <input type="date" name="departure-date" required>
+
+        <label>Data de retorno:</label>
+        <input type="date" name="return-date">
+
+        <input type="submit" value="Buscar Passagens" onclick="passagensSearch()">
+        <section class="passagens"></section>
     </main>
     <script src="../js/main.js"></script>
 </body>
