@@ -19,8 +19,6 @@ class Conexao:
 
 
 
-
-
 class Manager_DB:
     """Gerencia o banco de dados."""
 
@@ -60,6 +58,7 @@ class Manager_DB:
                 cursor.execute(sql)
                 conexao.commit()
         return
+    
 
     def select(self, table:str, column=None, value=None):
         """Retorna todos os registros da tabela passada ou apenas valores expecificos
@@ -70,7 +69,31 @@ class Manager_DB:
                 if value:
                     sql = f'SELECT *FROM {table} WHERE {column} = "{value}";'
                 else:
-                    sql = f'SELECT *FROM {table};'
+                    sql = f'SELECT *FROM {table} LIMIT 10;'
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                return result
+    
+
+    def select_voos(self, table:str, values, column=None, value=None):
+        """"""
+        with Conexao(**log) as conexao:
+            with conexao.cursor(dictionary=True) as cursor:
+                if value:
+                    sql = f'SELECT {values} FROM {table} WHERE {column} = "{value}";'
+                else:
+                    sql = f'SELECT *FROM {table} LIMIT 10;'
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                return result
+    
+
+    def select_passagens(self, table:str, column_1:str, value_1:str, column_2:str, value_2:str):
+        """"""
+        with Conexao(**log) as conexao:
+            with conexao.cursor(dictionary=True) as cursor:
+                sql = f'SELECT *FROM {table} WHERE {column_1} = "{value_1}"\
+                      AND {column_2} = "{value_2}" LIMIT 10;'
                 cursor.execute(sql)
                 result = cursor.fetchall()
                 return result
