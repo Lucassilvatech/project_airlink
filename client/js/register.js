@@ -18,8 +18,7 @@ buttonConf.addEventListener('click', () =>{
         body: JSON.stringify({
             'nome':inputUser.value,
             'email':inputEmail.value,
-            'key_pw':inputPassword.value,
-            'detail':'sucesso'
+            'key_pw':inputPassword.value
         })
         })
         .then(response => response.json())
@@ -32,9 +31,11 @@ buttonConf.addEventListener('click', () =>{
 })
 
 function loadData(data){
+    console.log('foi')
     if (data.detail == 'DuplicateError') {
         window.alert('Usuario já existe!')
-    }else if (data.detail == 'sucesso') {
+    }else {
+        
         window.location.href = '../pages/login.html'
     }  
 
