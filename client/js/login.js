@@ -1,4 +1,3 @@
-
 let buttonConf = document.querySelector('.confLogin')
 let inputEmail = document.querySelector('.emailUser')
 let inputPassword = document.querySelector('.passwordUser')
@@ -7,8 +6,8 @@ let forgotPw = document.querySelector('.forgotPw')
 let conteiner = document.querySelector('.boxRecuperacaoPw')
 let mainLogin = document.querySelector('.main_login')
 
-
 buttonConf.addEventListener('click', requestAPI)
+
 
 // Faz uma solicitação de GET na api
 function requestAPI(){
@@ -31,8 +30,8 @@ function requestAPI(){
       .then(response => response.json())
       .then(data => loadResponse(data))
       .catch(error => console.log(error))
-
   }
+
 
 // Faz uma validação na resposta da api
 function loadResponse(response){
@@ -45,12 +44,15 @@ function loadResponse(response){
   }else{
     let token = response.key_login
     localStorage.setItem('token', token)
+    localStorage.setItem('user_id', response.id_user)
+    localStorage.setItem('nome', response.nome)
     window.location.href = '../pages/main.html'
-    
   }
 }
+
 
 forgotPw.addEventListener('click', function(){
   mainLogin.classList.add('noneDisplay')
   conteiner.classList.remove('noneDisplay')
 })
+
