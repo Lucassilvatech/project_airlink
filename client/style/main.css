@@ -1,0 +1,87 @@
+* {
+    box-sizing: border-box;
+    border: 0;
+    padding: 0;
+}
+
+body {
+    justify-content: center;
+}
+
+header {
+    background-color: rgb(57, 184, 252);
+    position: relative;
+    padding: 20px 10px;
+
+}
+
+main {
+    margin-top: 50px;
+}
+
+#sub_box {
+    position: relative;
+    display: inline-block;
+    width: 300px;
+    height: 230px;
+    margin: 10px;
+    text-align: center;
+    background-color: rgb(219, 219, 219);
+    border-radius: 6px;
+    box-shadow: rgba(120, 120, 120, 0.382) 1px 3px 3px 2px;
+}
+
+.product {
+    display: inline !important;
+    background-color: rgb(176, 219, 254);
+    padding: 4px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.product:hover {
+    background-color: rgb(146, 206, 254);
+}
+
+.button_car {
+    background-color: rgb(254, 50, 197);
+    display: block;
+    padding-bottom: 10px;
+    width: 50px;
+    /* position: absolute;
+    left: 0;
+    top: 30px; */
+}
+
+.carrinho {
+    display: inline-block; 
+    position: absolute;
+    background: rgb(177, 28, 28);
+    z-index: 10;
+    width: 800px;
+    height: 500px;
+}
+
+.carrinho i {
+    display: block;
+    position: relative;
+    background-color: black;
+    width: 25px;
+    z-index: 10;
+
+}
+
+.noneDisplay{
+    display: none !important;
+}
+
+.car_box {
+    position: relative;
+    display: inline-block;
+    width: 120px;
+    height: 180px;
+    text-align: center;
+    background-color: rgb(75, 99, 144);
+    border: 1px solid black;
+    border-radius: 6px;
+}
