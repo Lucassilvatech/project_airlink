@@ -105,14 +105,46 @@ viewCarrinho.addEventListener('click', (evt) =>{
 
 function addCarrinho(data){
     // carrinho.innerHTML = `Carrinho ${cont++}`
+    let cont = 0
     for (valor of data) {
+        cont++
         viewCarrinho.innerHTML +=
-    `<div class="car_box">
+    `<div class="car_box" id="ex${cont}">
+        <i id="excluir" class="ex${cont}">X</i>
         <h3> viage de ${valor[0].origem} para ${valor[0].destino}</h3>
-        <span><p></p></span>
-        <p>preço ${valor[0].preco}</p>
+        <span></span>
+        <p id="${valor[0].numero_voo}">preço ${valor[0].preco}</p>
         <p>Numero do voo:${valor[0].numero_voo}</p>
     </div>`
     }
 }
+
+
+viewCarrinho.addEventListener('click', (evt) =>{
+    
+    if (evt.target.id == 'excluir'){
+       let classe = evt.target.getAttribute('class')
+       let parent = document.querySelector(`#${classe}`)
+       let filho = parent.querySelector('p')
+       parent.remove()
+
+       fetch(`http://127.0.0.1:8000/search/carrinho/remove/`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'num_voo': filho.id,
+            'user': localStorage.getItem('user_id')
+        })
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.log(error))
+       
+    }
+})
+
+
+
 

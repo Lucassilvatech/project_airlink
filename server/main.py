@@ -4,7 +4,8 @@ from typing import Union, Optional
 
 from modulos.manager_db import Manager_DB
 from modulos.modelo import (
-    ModelUser, DataLogin, HashLogin, ModelUserReturn, SearchVoos, Voos, DadosCarrinho
+    ModelUser, DataLogin, HashLogin, ModelUserReturn, SearchVoos, Voos, DadosCarrinho,
+    UserVooDelete
     )
 from modulos.gera_keys import rendom_key, hex_crypt, chack_password
 
@@ -104,6 +105,14 @@ async def search_passagem(user_id:int):
     return response
 
 
+@app.delete('/search/carrinho/remove/')
+async def passagem_remove(voo_user:UserVooDelete):
+    voo_user = voo_user.dict()
+    voo = query.select_voos('voos', values='*', column='numero_voo', value=voo_user['num_voo'])
+    query.delete_carrinho('carrinho', id_voo=voo[0]['id'], id_user=voo_user['user'])
+    
+
+
 @app.put('/voos')
 async def read_voos():
     voos = query.select('voos')
@@ -124,3 +133,4 @@ async def insert_voo(voo: Voos):
              preco, lugares_disponiveis, numero_voo)'
     query.insert('voos', keys, values)
     return voo
+

@@ -41,4 +41,9 @@ class SearchVoos(BaseModel):
 class DadosCarrinho(BaseModel):
     numero_voo: str
     user: int
+
+
+class UserVooDelete(BaseModel):
+    num_voo: str
+    user: int
       

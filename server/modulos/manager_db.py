@@ -125,6 +125,15 @@ class Manager_DB:
                 conexao.commit()
 
 
+    def delete_carrinho(self, table, id_user, id_voo):
+        """Deleta um registro da tabela"""
+        with Conexao(**log) as conexao:
+            with conexao.cursor() as cursor:
+                sql = f'DELETE FROM {table} WHERE id_user = {id_user} AND id_voo = {id_voo};'
+                cursor.execute(sql)
+                conexao.commit()
+
+
     def delete_database(self, name_database:str):
         """Deleta uma tabela"""
         with Conexao(**log) as conexao:
