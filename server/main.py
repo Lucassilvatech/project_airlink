@@ -57,6 +57,7 @@ async def read_client(data_login: DataLogin) -> HashLogin:
 
 @app.get('/client/singin/permission')
 async def read_permission(token:str):
+    """Verifica as permissoes de login do usuário"""
     result = query.select('permission_login', 'key_login', token)
     if not result:
         return {'error': 'token_not_exist'}
@@ -65,7 +66,7 @@ async def read_permission(token:str):
 
 @app.post('/client/singup', response_model=ModelUserReturn, status_code=201)
 async def insert_client(user: ModelUser):
-    """Inseri novos usuarios na base de dados"""
+    """Inseri novos usuários na base de dados"""
     user_dict = user.dict()
     user_dict['key_pw'] = hex_crypt(user_dict['key_pw'])
     keys = '(nome, email, key_pw)'
@@ -82,6 +83,7 @@ async def insert_client(user: ModelUser):
 
 @app.post('/client/carrinho/')
 async def insert_passagem(carrinho: DadosCarrinho):
+    """Insere as passagens na tabela carrinho"""
     carr = carrinho.dict()
     result = query.select('voos', 'numero_voo', carr['numero_voo'])
     query.insert(
@@ -95,6 +97,7 @@ async def insert_passagem(carrinho: DadosCarrinho):
 
 @app.get('/search/carrinho/{user_id}')
 async def search_passagem(user_id:int):
+    """Busca as passagens no carrinho referente ao usuário"""
     response = []
     result = query.select_voos('carrinho', 'id_voo', 'id_user', int(user_id))
     if not result:
@@ -107,6 +110,7 @@ async def search_passagem(user_id:int):
 
 @app.delete('/search/carrinho/remove/')
 async def passagem_remove(voo_user:UserVooDelete):
+    """Deleta passagens do carrinho"""
     voo_user = voo_user.dict()
     voo = query.select_voos('voos', values='*', column='numero_voo', value=voo_user['num_voo'])
     query.delete_carrinho('carrinho', id_voo=voo[0]['id'], id_user=voo_user['user'])
@@ -115,12 +119,14 @@ async def passagem_remove(voo_user:UserVooDelete):
 
 @app.put('/voos')
 async def read_voos():
+    """Busca por voos de forma genérica na base de dados"""
     voos = query.select('voos')
     return voos
 
 
 @app.post('/voos/search')
 async def search_voos(search_voo: SearchVoos):
+    """Busca por voos especificos"""
     voo = search_voo.dict()
     voos = query.select_passagens('voos', 'origem', voo['origem'], 'destino', voo['destino'] )
     return voos
@@ -128,6 +134,7 @@ async def search_voos(search_voo: SearchVoos):
 
 @app.post('/staff/voos')
 async def insert_voo(voo: Voos):
+    """Insere novos voos"""
     values = tuple(voo.dict().values())
     keys = '(origem, destino, data_partida, data_chegada,\
              preco, lugares_disponiveis, numero_voo)'
