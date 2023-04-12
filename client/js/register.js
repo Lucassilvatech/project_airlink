@@ -3,7 +3,7 @@ const buttonConf = document.querySelector('.confLogin')
 const inputEmail = document.querySelector('.emailUser')
 const inputPassword = document.querySelector('.passwordUser')
 const inputPassword_2 = document.querySelector('.passwordUser_2')
-
+const sucess = document.querySelector('.noneDisplay')
 
 // Faz uma solicitação de POST na api
 buttonConf.addEventListener('click', () =>{
@@ -38,11 +38,15 @@ function loadData(data){
     if (data.detail == 'DuplicateError') {
         window.alert('Usuario já existe!')
     }else {
+        sucess.classList.add('sucesso')
+        setTimeout(() =>{
+            window.location.href = '../pages/login.html'},
+        1700)
         
-        window.location.href = '../pages/login.html'
     }  
 
 }
+// Verifica se todos os capos foram preenchidos
 function validaDados(){
     if ((inputUser.value == '') || (inputEmail.value == '') ||
     (inputPassword.value == '') || (inputPassword_2.value == '')) {

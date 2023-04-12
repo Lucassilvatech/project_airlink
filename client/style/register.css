@@ -91,6 +91,20 @@ body {
     display: flex;
     flex-direction: column;
 
+}.noneDisplay {
+    display: none;
+}
+.form .sucesso {
+    display: inline-block;
+    position: absolute;
+    top: 0.7em;
+    margin-bottom: 20px;
+    background-color: aliceblue;
+    color: rgb(43, 184, 43);
+    text-align: center;
+    letter-spacing: 0.1em;
+    padding: 0.5em;
+    border-radius: 2px;
 }
 .form h2 {
     color: #45f3ff;
