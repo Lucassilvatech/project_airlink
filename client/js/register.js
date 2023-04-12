@@ -23,7 +23,10 @@ buttonConf.addEventListener('click', () =>{
         })
         .then(response => response.json())
         .then(data => loadData(data))
-        .catch(error => console.log(error))
+        .catch(error => {
+            window.alert("algo deu errado /:")
+            console.log(error)
+        })
     }else{
         alert('Senhas não confere')
     }

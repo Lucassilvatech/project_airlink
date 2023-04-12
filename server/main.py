@@ -100,8 +100,8 @@ async def search_passagem(user_id:int):
     if not result:
         return {'error': 'value_not_exist'}
     for valor in result:
-        r = query.select('voos', 'id', int(valor['id_voo']))
-        response.append(r)
+        resp = query.select('voos', 'id', int(valor['id_voo']))
+        response.append(resp)
     return response
 
 

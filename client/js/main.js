@@ -1,7 +1,7 @@
 let passagens = document.querySelector('.passagens')
 let origem = document.querySelector('.origem')
 let destino = document.querySelector('.destino')
-let carrinho = document.querySelector('span')
+let carrinho = document.querySelector('.button_car')
 let viewCarrinho = document.querySelector('.carrinho')
 
 
@@ -19,7 +19,10 @@ fetch('http://127.0.0.1:8000/voos', {
     })
     .then(response => response.json())
     .then(data => loadPassagensAuto(data))
-    .catch(error => console.log(error))
+    .catch(error => {
+        window.alert("algo deu errado /:")
+        console.log(error)
+    })  
 
 
 function loadPassagensAuto(data) {
@@ -69,7 +72,11 @@ passagens.addEventListener('click', function(evt){
         })
         .then(response => response.json())
         .then(data => console.log(data))
-        .catch(error => console.log(error))
+        .catch(error => {
+            window.alert("algo deu errado /:")
+            console.log(error)
+        })
+       
     }catch (error){
         return
     }
@@ -81,6 +88,7 @@ let cont = 1
 carrinho.addEventListener('click', () =>{
 
     let user = localStorage.getItem('user_id')
+    console.log(user)
     fetch(`http://127.0.0.1:8000/search/carrinho/${user}`, {
         method: 'GET',
         headers: {
@@ -89,7 +97,10 @@ carrinho.addEventListener('click', () =>{
         })
         .then(response => response.json())
         .then(data => addCarrinho(data))
-        .catch(error => console.log(error))
+        .catch(error => {
+            window.alert("algo deu errado /:")
+            console.log(error)
+        })
 
     viewCarrinho.classList.remove('noneDisplay')
 })
@@ -140,7 +151,10 @@ viewCarrinho.addEventListener('click', (evt) =>{
         })
         .then(response => response.json())
         .then(data => console.log(data))
-        .catch(error => console.log(error))
+        .catch(error => {
+            window.alert("algo deu errado /:")
+            console.log(error)
+        })
        
     }
 })

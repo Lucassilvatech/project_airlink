@@ -71,7 +71,10 @@ function getForm(){
     })
     .then(response => response.json())
     .then(data => console.log(data))
-    .catch(error => console.log(error))
+    .catch(error => {
+        window.alert("algo deu errado /:")
+        console.log(error)
+    })
 
 }
 

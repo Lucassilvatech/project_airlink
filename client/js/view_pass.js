@@ -14,7 +14,10 @@ function load_passagens() {
         })
         .then(response => response.json())
         .then(data => readPagePassagens(data))
-        .catch(error => console.log(error))
+        .catch(error => {
+            window.alert("algo deu errado /:")
+            console.log(error)
+        })
 }
 
 
