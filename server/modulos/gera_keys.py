@@ -8,9 +8,16 @@ escolhas_possiveis = string.ascii_letters + string.digits
 def rendom_key():
     """Gera uma string aleatoria com letras e numeros"""
     key: str = ''
-    for i in range(26):
+    for _ in range(26):
         key += random.choice(escolhas_possiveis)
     return key
+
+
+def number_key():
+    key: int = ''
+    for _ in range(6):
+        key += random.choice(string.digits)
+    return key 
 
 
 def hex_crypt(password):
