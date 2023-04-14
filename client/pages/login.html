@@ -12,13 +12,13 @@
 <body>
     <section class="boxRecuperacaoPw noneDisplay">
         <div class="forgotPwform">
-            <h3>Recuperar senha</h3>
+            <h3></h3>
             <label class="pwInputBox">
-                <input type="text" class="emailUserpW" required="required">
-                <span>Seu email cadastrado</span>
+                <span>Digite o codigo que foi enviado para o seu email</span>
+                <input type="text" class="codeRecoveryPw" required="required">
             </label>
         </div>
-        <button  class="confEmail">Confirmar</button>
+        <input type="submit" value="Confirmar" class="confEmail" onclick="readCode()">
     </section>
 
     <main class="main_login">
@@ -42,7 +42,7 @@
             <input type="submit" value="Login" class="confLogin">
         </div>
     </main>
-    <script type="module" src="../js/login.js"></script>
+    <script src="../js/login.js"></script>
 </body>
 
 </html>

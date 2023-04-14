@@ -5,6 +5,7 @@ let inputPassword = document.querySelector('.passwordUser')
 let forgotPw = document.querySelector('.forgotPw')
 let conteiner = document.querySelector('.boxRecuperacaoPw')
 let mainLogin = document.querySelector('.main_login')
+const codeRecovery = document.querySelector('.codeRecoveryPw')
 
 buttonConf.addEventListener('click', requestAPI)
 
@@ -55,7 +56,45 @@ function loadResponse(response){
 
 
 forgotPw.addEventListener('click', function(){
+  if(inputEmail == ''){
+    window.alert('digite o email referente a conta que deseja recuperar a senha')
+  }
+fetch(`http://127.0.0.1:8000/user/recovery/code?email=${inputEmail.value}`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    })
+    .then(response => response.json())
+    .then(data => {sessionStorage.setItem('id_user', data.id)})
+    .catch(error => {
+      window.alert("algo deu errado /:")
+      console.log(error)
+  })
   mainLogin.classList.add('noneDisplay')
   conteiner.classList.remove('noneDisplay')
 })
 
+
+function readCode(){
+  const idUser = sessionStorage.getItem('id_user')
+  fetch(`http://127.0.0.1:8000/user/code?id_user=${idUser}`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    })
+    .then(response => response.json())
+    .then(data => verificador(data))
+    .catch(error => {
+      window.alert("algo deu errado /:")
+      console.log(error)
+  })
+}
+
+function verificador(data){
+  console.log(data)
+  if (data.codigo == codeRecovery.value){
+    console.log('Boa!')
+  }
+}
