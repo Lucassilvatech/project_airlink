@@ -5,7 +5,7 @@ from typing import Union, Optional
 from modulos.manager_db import Manager_DB, IntegrityError
 from modulos.modelo import (
     ModelUser, DataLogin, HashLogin, ModelUserReturn, SearchVoos, Voos, DadosCarrinho,
-    UserVooDelete
+    UserVooDelete, RecoverLogin
     )
 from modulos.gera_keys import rendom_key, hex_crypt, chack_password, number_key
 from modulos.send_email import send_email_recovery
@@ -89,6 +89,18 @@ async def set_code_recovery_pw(email:str):
 
     send_email_recovery(email_destinatario=email, codigo=codigo)
     return {'id':result[0]['id']}
+
+
+@app.post('/user/new/pw')
+async def update_password(recover_login: RecoverLogin):
+    rec_login = recover_login.dict()
+    pw_hash = hex_crypt(rec_login['key_pw'])
+    try:
+        query.atualiza('users', 'key_pw', pw_hash, 'id', rec_login['id'])
+    except Exception as err:
+        return {'error':err}
+    else:
+        return {'detail': 'sucesso'}
 
 
 @app.post('/client/singup', response_model=ModelUserReturn, status_code=201)

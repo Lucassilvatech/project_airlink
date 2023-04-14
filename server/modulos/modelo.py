@@ -17,6 +17,11 @@ class DataLogin(BaseModel):
     key_pw: str
 
 
+class RecoverLogin(BaseModel):
+    id: int
+    key_pw: str
+
+
 class HashLogin(BaseModel):
     id_user: int
     nome: str

@@ -7,6 +7,11 @@ let conteiner = document.querySelector('.boxRecuperacaoPw')
 let mainLogin = document.querySelector('.main_login')
 const codeRecovery = document.querySelector('.codeRecoveryPw')
 
+const newPwForm = document.querySelector('.newPwForm')
+const newPwInput = document.querySelector('.newPwInput')
+const newPwInput_2 = document.querySelector('.newPwInput_2')
+const confNewPw = document.querySelector('.confNewPw')
+
 buttonConf.addEventListener('click', requestAPI)
 
 
@@ -95,6 +100,38 @@ function readCode(){
 function verificador(data){
   console.log(data)
   if (data.codigo == codeRecovery.value){
-    console.log('Boa!')
+    newPwForm.classList.remove('noneDisplay')
+    conteiner.classList.add('noneDisplay')
+  }else{
+    window.alert('Codigo não confere! Verifique e tente novamente.')
   }
+}
+
+
+function setNewPw() {
+  const idUser = sessionStorage.getItem('id_user')
+  if (newPwInput.value == '' || newPwInput_2.value == '' || newPwInput.value != newPwInput_2.value ){
+    window.alert('Valor invalido! Verifique se preencheu ambos os campos corretamente.')
+    return
+  }
+
+  fetch(`http://127.0.0.1:8000/user/new/pw?id_user=${idUser}`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      'id':idUser,
+      'key_pw':newPwInput.value
+  })
+    })
+    .then(response => response.json())
+    .then(data => {
+      mainLogin.classList.remove('noneDisplay')
+      newPwForm.classList.add('noneDisplay')
+      console.log(data)})
+    .catch(error => {
+      window.alert("algo deu errado /:")
+      console.log(error)
+  })
 }
