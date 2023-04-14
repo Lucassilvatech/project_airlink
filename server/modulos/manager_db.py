@@ -1,5 +1,6 @@
 """Modulo para gerenciar tabelas de DB. a conexão tem que aceitar gerenciador de contexto"""
 import mysql.connector 
+from mysql.connector import IntegrityError
 from login_db import log
 
 class Conexao:
@@ -21,8 +22,6 @@ class Conexao:
 
 class Manager_DB:
     """Gerencia o banco de dados."""
-
-
     def create_database(self, name_database:str):
         """Cria um novo banco de dados"""
         with Conexao(**log) as conexao:
@@ -116,11 +115,11 @@ class Manager_DB:
                 conexao.commit()
 
 
-    def delete_record(self, table, id_colunm):
+    def delete_record(self, table, colunm, value):
         """Deleta um registro da tabela"""
         with Conexao(**log) as conexao:
             with conexao.cursor() as cursor:
-                sql = f'DELETE FROM {table} WHERE id = {id_colunm};'
+                sql = f'DELETE FROM {table} WHERE {colunm} = {value};'
                 cursor.execute(sql)
                 conexao.commit()
 
