@@ -2,12 +2,13 @@ from fastapi import FastAPI, HTTPException
 from starlette.middleware.cors import CORSMiddleware
 from typing import Union, Optional
 
-from modulos.manager_db import Manager_DB
+from modulos.manager_db import Manager_DB, IntegrityError
 from modulos.modelo import (
     ModelUser, DataLogin, HashLogin, ModelUserReturn, SearchVoos, Voos, DadosCarrinho,
     UserVooDelete
     )
-from modulos.gera_keys import rendom_key, hex_crypt, chack_password
+from modulos.gera_keys import rendom_key, hex_crypt, chack_password, number_key
+from modulos.send_email import send_email_recovery
 
 query = Manager_DB()
 
@@ -62,6 +63,32 @@ async def read_permission(token:str):
     if not result:
         return {'error': 'token_not_exist'}
     return result
+
+
+@app.post('/user/code')
+async def get_code_recovery(id_user):
+    """Retorna um codigo para recuperação de senha"""
+    result = query.select('key_recovery', 'id_user', id_user)
+    if not result:
+        return {'error': 'email_not_exist'}
+    return{'codigo':result[0]['codigo']}
+
+
+@app.post('/user/recovery/code')
+async def set_code_recovery_pw(email:str):
+    """Retorna um codigo para recuperação de senha"""
+    result = query.select('users', 'email', email)
+    if not result:
+        return {'error': 'email_not_exist'}
+    codigo = number_key()
+    try:
+        query.insert('key_recovery','(id_user, codigo)', (result[0]['id'], codigo))
+    except IntegrityError as err:
+        query.delete_record('key_recovery','id_user', result[0]['id'])
+        query.insert('key_recovery','(id_user, codigo)', (result[0]['id'], codigo))
+
+    send_email_recovery(email_destinatario=email, codigo=codigo)
+    return {'id':result[0]['id']}
 
 
 @app.post('/client/singup', response_model=ModelUserReturn, status_code=201)
