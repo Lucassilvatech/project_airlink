@@ -7,9 +7,10 @@ from email.mime.multipart import MIMEMultipart
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
+EMAIL = os.getenv('EMAIL')
 
 
-email_remetente = ""
+email_remetente = EMAIL
 senha_remetente = TOKEN
 assunto = "Recuperação de senha"
 
