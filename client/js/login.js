@@ -63,6 +63,7 @@ function loadResponse(response){
 forgotPw.addEventListener('click', function(){
   if(inputEmail == ''){
     window.alert('digite o email referente a conta que deseja recuperar a senha')
+    return
   }
 fetch(`http://127.0.0.1:8000/user/recovery/code?email=${inputEmail.value}`, {
     method: 'POST',
